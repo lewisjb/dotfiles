@@ -3,7 +3,6 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Plugins
 call plug#begin('~/.config/nvim/plugged')
-"Plug 'altercation/vim-colors-solarized'
 Plug 'Shougo/deoplete.nvim'
 Plug 'scrooloose/nerdtree'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -14,9 +13,9 @@ Plug 'tshirtman/vim-cython'
 Plug 'othree/html5.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
-Plug 'leafgarland/typescript-vim'
 Plug 'morhetz/gruvbox'
 Plug 'junegunn/goyo.vim'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 " Disable mouse (stops me messing up when I hit the touchpad while typing)
@@ -49,6 +48,10 @@ set splitbelow         " More natural horizontal splitting
 set splitright         " More natural vertical splitting
 set relativenumber     " Relative line numbers
 set smartindent        " WHY WASN'T THIS HERE EARLIER? - Sincerely, past Lewis
+
+" Puts vim files in ~/vimtmp instead of polluting every directory I touch
+set backupdir=~/vimtmp,.
+set directory=~/vimtmp,.
 
 " Highlights cursorline
 highlight cursorline guibg=#515151
@@ -178,9 +181,6 @@ vmap Y Ygv<Esc>
 vmap > >gv<Esc>
 vmap < <gv<Esc>
 
-" Auto SVN Add
-" autocmd BufWritePost * !svn add %
-
 " Select all
 nnoremap <Leader>a ggvG$
 
@@ -193,6 +193,12 @@ let g:airline#extensions#tabline#enabled = 1
 au BufNewFile,BufRead *.pyd setfiletype pyrex
 au BufNewFile,BufRead *.pyx setfiletype pyrex
 
+" Torch syntax highlighting
+au BufNewFile,BufRead *.th setfiletype lua
+
+" Python stubs syntax highlighting
+au BufNewFile,BufRead *.pyi setfiletype python
+
 " TeX commands
 function TeX()
 	" Placeholder
@@ -200,27 +206,3 @@ function TeX()
 endfunction
 
 autocmd Filetype tex call TeX()
-
-
-" Writing code by writing python
-" Currently doesnt work in NeoVim :<
-function Get_visual_selection()
-	" Credit to http://stackoverflow.com/users/788200/xolox
-	let [lnum1, col1] = getpos("'<")[1:2]
-	let [lnum2, col2] = getpos("'>")[1:2]
-	let lines = getline(lnum1, lnum2)
-	let lines[-1] = lines[-1][: col2 - 2]
-	let lines[0] = lines[0][col1 - 1:]
-	return join(lines, "\n")
-endfunction
-
-function Exec_py()
-	redir => pycmd
-	let cmd = Get_visual_selection()
-	execute "normal! gvx"
-	silent execute "python " . cmd
-	redir END
-	silent put!=pycmd
-endfunction
-
-vnoremap e <esc>:call Exec_py()<CR>
