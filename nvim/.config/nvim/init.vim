@@ -63,12 +63,12 @@ highlight diffFile guibg=#00ff00
 
 " Opens `svn diff` (with the colors above)
 if !exists(":SvnDiff")
-	command SvnDiff :set syntax=diff | :r !svn diff
+  command SvnDiff :set syntax=diff | :r !svn diff
 endif
 
 " :W -> :w
 if !exists(":W")
-	command W :w
+  command W :w
 endif
 
 " Don't use Ex mode, use Q for formatting
@@ -115,7 +115,6 @@ noremap <leader>. f>
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 
-
 " Enable file type detection.
 " Use the default filetype settings, so that mail gets 'textwidth' set to 72,
 " 'cindent' is on in C files, etc.
@@ -150,14 +149,14 @@ endif
 
 " Highlight current line on active window
 augroup BgHighlight
-	autocmd!
-	autocmd WinEnter * set cul
-	autocmd WinLeave * set nocul
+  autocmd!
+  autocmd WinEnter * set cul
+  autocmd WinLeave * set nocul
 augroup END
 
 " Easier to open and edit init.vim
 if !exists(":EditInit")
-	command EditInit :e ~/.config/nvim/init.vim
+  command EditInit :e ~/.config/nvim/init.vim
 endif
 
 " Deoplete
@@ -201,8 +200,8 @@ au BufNewFile,BufRead *.pyi setfiletype python
 
 " TeX commands
 function TeX()
-	" Placeholder
-	" Should probs put stuff here
+  " Placeholder
+  " Should probs put stuff here
 endfunction
 
 autocmd Filetype tex call TeX()
