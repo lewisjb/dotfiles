@@ -199,7 +199,7 @@ au BufNewFile,BufRead *.th setfiletype lua
 au BufNewFile,BufRead *.pyi setfiletype python
 
 " TeX commands
-function TeX()
+function! TeX()
   " Placeholder
   " Should probs put stuff here
 endfunction
